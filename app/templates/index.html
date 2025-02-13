@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index_style.css') }}">
+</head>
+<body>
+    <!-- Display Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+</body>
+<body>
+    <header class="header">
+        <h1>Welcome to the Management Portal</h1>
+    </header>
+
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <h3 class="action">Actions</h3>
+            <!-- Add Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown('addDropdown')">Add</button>
+                <div id="addDropdown" class="dropdown-content">
+                    <a href="{{ url_for('customer.add_customer') }}">New Customer</a>
+                    <a href="{{ url_for('account.add_account') }}">New Account</a>
+                    <a href="{{ url_for('loan.add_loan') }}">New Loan</a>
+                    <a href="{{ url_for('transaction.add_transaction') }}">New Transaction</a>
+                    <a href="{{ url_for('transactionCard.add_transaction_card') }}">New Transaction Card</a>
+                </div>
+            </div>
+            <!-- Delete Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown('deleteDropdown')">Delete</button>
+                <div id="deleteDropdown" class="dropdown-content">
+                    <a href="/customers">Customer</a>
+                    <a href="/accounts">Account</a>
+                    <a href="/loans">Loan</a>
+                    <a href="/transactions">Transaction</a>
+                    <a href="/transactionCards">Transaction Card</a>
+                </div>
+            </div>
+            <!-- Update Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown('updateDropdown')">Update</button>
+                <div id="updateDropdown" class="dropdown-content">
+                    <a href="/customers">Customer</a>
+                    <a href="/accounts">Account</a>
+                    <a href="/loans">Loan</a>
+                    <a href="/transactions">Transaction</a>
+                    <a href="/transactionCards">Transaction Card</a>
+                </div>
+            </div>
+            <!-- Inline Search -->
+             <div class="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown('searchDropdown')">Search</button>
+                <div id="searchDropdown" class= "in-submit">
+                    <form action="{{ url_for('customer.Customers') }}" method="GET">
+                        <input type="text" name="search" placeholder="Search customers..." class="search-input"><br>
+                        <button type="submit" class="btn-submit">Submit</button>     
+                    </form>
+                </div>
+             </div>
+        </aside>
+
+        <!-- JavaScript Section -->
+        <script>
+            // Dropdown toggle functionality
+            function toggleDropdown(dropdownId) {
+                // Get the clicked dropdown
+                const dropdown = document.getElementById(dropdownId);
+
+                // Close all dropdowns first
+                const allDropdowns = document.querySelectorAll('.dropdown-content, .in-submit');
+                allDropdowns.forEach((d) => {
+                    if (d !== dropdown) {
+                        d.style.display = 'none';
+                    }
+                });
+
+                // Toggle the selected dropdown
+                if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                    dropdown.style.display = "block";
+                } else {
+                    dropdown.style.display = "none";
+                }
+            }
+
+            // Close all dropdowns when clicking outside
+            window.onclick = function (event) {
+                // Get all dropdowns and buttons
+                const allDropdowns = document.querySelectorAll('.dropdown-content, .in-submit');
+                const allButtons = document.querySelectorAll('.dropbtn');
+
+                // Loop through all dropdowns
+                allDropdowns.forEach((dropdown, index) => {
+                    const button = allButtons[index]; // Match button to corresponding dropdown
+
+                    // Close dropdown if the click is outside the button and the dropdown
+                    if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+                        dropdown.style.display = "none";
+                    }
+                });
+            };
+
+            // Toggle specific dropdown based on the button clicked
+            function toggleDropdown(dropdownId) {
+                // Get the target dropdown
+                const dropdown = document.getElementById(dropdownId);
+
+                // Toggle its visibility
+                if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                    dropdown.style.display = "block";
+                } else {
+                    dropdown.style.display = "none";
+                }
+            }
+
+
+        </script>
+        
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="table-buttons">
+                <a href="/customers"class="table-btn customers">Customers</a>
+                <a href="/accounts" class="table-btn accounts">Accounts</a>
+                <a href="/loans" class="table-btn loans">Loans</a><br>
+                <a href="/transactions" class="table-btn transactions">Transactions</a>
+                <a href="/transactionCards" class="table-btn transactionCards">Transaction Cards</a>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Management Portal | All rights reserved.</p>
+    </footer>
+</body>
+</html>
+

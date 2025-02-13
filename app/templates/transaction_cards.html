@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Cards</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Card Management System</h1>
+    </header>
+    <nav>
+        <a href="{{ url_for('index') }}" class="btn">Home</a>
+        <a href="/customers" class="btn">Customers</a>
+        <a href="/accounts" class="btn">Accounts</a>
+        <a href="/loans" class="btn">Loans</a>
+        <a href="/transactions" class="btn">Transactions</a>
+        <a href="/transactionCards" class="btn">Transaction Cards</a>
+    </nav>
+    <div class="container">
+        <a href="{{ url_for('transactionCard.add_transaction_card') }}" class="add-button">Add New Card</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Transaction Card ID</th>
+                    <th>Transaction ID</th>
+                    <th>Card Type</th>
+                    <th>Amount</th>
+                    <th>Transaction Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction_card in transaction_cards %}
+                <tr>
+                    <td>{{ transaction_card.transaction_card_id }}</td>
+                    <td>{{ transaction_card.transaction_id }}</td>
+                    <td>{{ transaction_card.card_type }}</td>
+                    <td>{{ transaction_card.amount }}</td>
+                    <td>{{ transaction_card.transaction_type }}</td>
+                    <td class="btn btn-delete">
+                        <!-- Delete button -->
+                        <a href="{{ url_for('transactionCard.delete_confirmation', transaction_card_id=transaction_card.transaction_card_id) }}" class="btn-delete">Delete</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">No cards found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

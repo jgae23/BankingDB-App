@@ -1,0 +1,59 @@
+<!-- users.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loans</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Account Management System</h1>
+    </header>
+    <nav>
+        <a href="{{ url_for('index') }}" class="btn">Home</a>
+        <a href="/customers" class="btn">Customers</a>
+        <a href="/accounts" class="btn">Accounts</a>
+        <a href="/loans" class="btn">Loans</a>
+        <a href="/transactions" class="btn">Transactions</a>
+        <a href="/transactionCards" class="btn">Transaction Cards</a>
+    </nav>
+    <div class="container">
+        <a href="{{ url_for('account.add_account') }}" class="add-button">Add New Account</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Account ID</th>
+                    <th>Customer ID</th>
+                    <th>Customer Name</th>
+                    <th>Balance</th>
+                    <th>Account Status</th>
+                    <th>Account Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for account in accounts %}
+                <tr>
+                    <td>{{ account.account_id }}</td> <!-- account_id -->
+                    <td>{{ account.customer_id }}</td>
+                    <td>{{ account.first_name }} {{ account.last_name }}</td> <!-- first_name + last_name -->
+                    <td>${{ account.balance }}</td> <!-- balance -->
+                    <td>{{ account.account_status }}</td> <!-- account_status -->
+                    <td>{{ account.account_type }}</td> <!-- account_type -->
+                    <!-- Delete button -->
+                    <td class="btn btn-delete">
+                        <a href="{{ url_for('account.delete_confirmation', account_id=account.account_id) }}" class="btn-delete">Delete</a>
+                        <a href="{{ url_for('account.update_account', account_id=account.account_id) }}" class="btn-delete">Update</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6">No accounts found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!-- users.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Transaction Management System</h1>
+    </header>
+    <nav>
+        <a href="{{ url_for('index') }}" class="'btn">Home</a>
+        <a href="/customers" class="btn">Customers</a>
+        <a href="/accounts" class="btn">Accounts</a>
+        <a href="/loans" class="btn">Loans</a>
+        <a href="/transactions" class="btn">Transactions</a>
+        <a href="/transactionCards" class="btn">Transaction Cards</a>
+    </nav>
+    <div class="container">
+        <a href="{{ url_for('transaction.add_transaction') }}" class="add-button">Add New Transaction</a>
+        <br>
+        <table>
+            <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Account ID</th>
+                    <th>Related Account ID</th>
+                    <th>Account Type</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Transaction Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.transaction_id }}</td>
+                    <td>{{ transaction.account_id }}</td>
+                    <td>{{ transaction.related_account_id }}</td>
+                    <td>{{ transaction.account_type }}</td>
+                    <td>{{ transaction.amount }}</td>
+                    <td>{{ transaction.transaction_date }}</td>
+                    <td>{{ transaction.transaction_type }}</td>
+                    <!-- Delete button -->
+                    <td class="btn btn-delete">
+                        <a href="{{ url_for('transaction.delete_confirmation', transaction_id=transaction.transaction_id) }}" class="btn-delete">Delete</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7">No transactions found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
